@@ -1,0 +1,4 @@
+import Link from "next/link";
+import { AuthFrame,Field,Submit } from "@/components/auth-form";
+import { signup } from "@/lib/actions/auth";
+export default async function SignupPage({searchParams}:{searchParams:Promise<{error?:string}>}){const {error}=await searchParams;return <AuthFrame title="Create your account" subtitle="Start with a secure workspace for your commerce team." error={error}><form action={signup} className="mt-6 grid gap-4"><Field label="Full name" name="fullName" autoComplete="name"/><Field label="Email" name="email" type="email" autoComplete="email"/><Field label="Password" name="password" type="password" autoComplete="new-password"/><Submit>Create account</Submit></form><p className="mt-5 text-center text-sm text-muted">Already registered? <Link href="/login" className="font-semibold text-brand-600">Sign in</Link></p></AuthFrame>}

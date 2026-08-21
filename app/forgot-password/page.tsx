@@ -1,0 +1,4 @@
+import Link from "next/link";
+import { AuthFrame,Field,Submit } from "@/components/auth-form";
+import { forgotPassword } from "@/lib/actions/auth";
+export default async function ForgotPage({searchParams}:{searchParams:Promise<{error?:string;sent?:string}>}){const {error,sent}=await searchParams;return <AuthFrame title="Reset your password" subtitle="We will email you a secure reset link." error={error}>{sent?<p className="mt-6 rounded-lg bg-emerald-50 p-4 text-sm text-emerald-700">Check your inbox for the reset link.</p>:<form action={forgotPassword} className="mt-6 grid gap-4"><Field label="Email" name="email" type="email" autoComplete="email"/><Submit>Send reset link</Submit></form>}<Link href="/login" className="mt-5 block text-center text-sm font-semibold text-brand-600">Back to sign in</Link></AuthFrame>}

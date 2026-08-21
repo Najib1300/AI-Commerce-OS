@@ -1,0 +1,1 @@
+"use client";import { ErrorState } from "@/components/ui";export default function ErrorPage(){return <main className="p-8"><ErrorState message="We could not load this page. Please try again."/></main>}

@@ -1,0 +1,4 @@
+import Link from "next/link";
+import { AuthFrame,Field,Submit } from "@/components/auth-form";
+import { login } from "@/lib/actions/auth";
+export default async function LoginPage({searchParams}:{searchParams:Promise<{error?:string}>}){const {error}=await searchParams;return <AuthFrame title="Welcome back" subtitle="Sign in to manage your businesses." error={error}><form action={login} className="mt-6 grid gap-4"><Field label="Email" name="email" type="email" autoComplete="email"/><Field label="Password" name="password" type="password" autoComplete="current-password"/><div className="text-right"><Link href="/forgot-password" className="text-sm text-brand-600">Forgot password?</Link></div><Submit>Sign in</Submit></form><p className="mt-5 text-center text-sm text-muted">New here? <Link href="/signup" className="font-semibold text-brand-600">Create an account</Link></p></AuthFrame>}

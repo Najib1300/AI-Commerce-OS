@@ -1,0 +1,12 @@
+import { z } from "zod";
+export const idSchema=z.string().uuid("Invalid identifier");
+export const slugSchema=z.string().min(2).max(64).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/,"Use lowercase letters, numbers, and hyphens");
+export const emailSchema=z.string().trim().email().max(254);
+export const passwordSchema=z.string().min(8,"Password must be at least 8 characters").max(128);
+export const loginSchema=z.object({email:emailSchema,password:passwordSchema});
+export const signupSchema=loginSchema.extend({fullName:z.string().trim().min(2).max(100)});
+export const forgotPasswordSchema=z.object({email:emailSchema});
+export const organizationSchema=z.object({name:z.string().trim().min(2).max(100),slug:slugSchema});
+export const nicheOptions=["AI Decide","Beauty","Home","Pets","Fitness","Electronics","Fashion","Kids","Automotive","Other"] as const;
+export const businessSchema=z.object({name:z.string().trim().min(2).max(100),targetCountry:z.string().trim().min(2).max(80),targetMarket:z.string().trim().min(2).max(100),startingBudget:z.coerce.number().finite().min(0).max(100_000_000),niche:z.enum(nicheOptions)});
+export const onboardingSchema=z.object({fullName:z.string().trim().min(2).max(100),organizationName:z.string().trim().min(2).max(100)});

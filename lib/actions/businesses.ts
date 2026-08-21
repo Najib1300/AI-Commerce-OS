@@ -1,0 +1,6 @@
+"use server";
+import { redirect } from "next/navigation";
+import { businessSchema } from "@/lib/validation";
+import { getCurrentOrganization } from "@/lib/data";
+import { slugify } from "@/lib/utils";
+export async function createBusiness(formData:FormData){const parsed=businessSchema.safeParse(Object.fromEntries(formData.entries()));if(!parsed.success)redirect(`/businesses/new?error=${encodeURIComponent(parsed.error.issues[0]?.message??"Invalid business")}`);const {supabase,user,membership}=await getCurrentOrganization();const id=crypto.randomUUID();const {data,error}=await supabase.from("businesses").insert({id,organization_id:membership.organization_id,name:parsed.data.name,slug:`${slugify(parsed.data.name)}-${id.slice(0,8)}`,status:"draft",business_type:"dropshipping",target_country:parsed.data.targetCountry,target_market:parsed.data.targetMarket,starting_budget:parsed.data.startingBudget,niche:parsed.data.niche}).select("id").single();if(error)redirect(`/businesses/new?error=${encodeURIComponent(error.message)}`);await supabase.from("audit_logs").insert({organization_id:membership.organization_id,user_id:user.id,action:"business.created",entity_type:"business",entity_id:data.id,metadata:{name:parsed.data.name}});redirect(`/businesses/${data.id}`);}
