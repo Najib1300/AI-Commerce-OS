@@ -3,6 +3,7 @@
 ## Included
 
 - Supabase email/password authentication and password reset
+- JSON-based signup endpoint with content-type-aware client error handling
 - Automatic profile, organization, and owner membership creation
 - Organization onboarding
 - Protected SaaS dashboard with database-backed counts, usage, and activity

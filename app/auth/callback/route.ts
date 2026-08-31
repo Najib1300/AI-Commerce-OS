@@ -1,3 +1,4 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-export async function GET(request:Request){const url=new URL(request.url);const code=url.searchParams.get("code");if(code){const supabase=await createClient();await supabase.auth.exchangeCodeForSession(code);}return NextResponse.redirect(new URL("/dashboard",request.url));}
+import { getCallbackDestination } from "@/lib/auth-routes";
+export async function GET(request:Request){const url=new URL(request.url);const code=url.searchParams.get("code");if(!code)return NextResponse.redirect(getCallbackDestination(request.url,false));try{const supabase=await createClient();const {error}=await supabase.auth.exchangeCodeForSession(code);if(error){console.error("Authentication callback exchange failed",{message:error.message});return NextResponse.redirect(getCallbackDestination(request.url,false));}return NextResponse.redirect(getCallbackDestination(request.url,true));}catch(cause){console.error("Authentication callback failed",{message:cause instanceof Error?cause.message:String(cause)});return NextResponse.redirect(getCallbackDestination(request.url,false));}}
