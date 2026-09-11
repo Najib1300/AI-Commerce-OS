@@ -11,3 +11,4 @@ test-results/
 npm-debug.log*
 .DS_Store
 *.tsbuildinfo
+supabase/.temp/

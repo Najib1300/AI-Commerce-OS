@@ -1,0 +1,5 @@
+import Link from "next/link";
+import { Card,EmptyState } from "@/components/ui";
+import { ProductResearchForm } from "@/components/product-research-form";
+import { getBusinesses } from "@/lib/data";
+export default async function ProductResearchPage({searchParams}:{searchParams:Promise<{error?:string;businessId?:string}>}){const [{error,businessId},businesses]=await Promise.all([searchParams,getBusinesses()]);return <div className="mx-auto max-w-3xl"><div className="mb-7"><p className="text-sm font-medium text-brand-600">Phase 1B</p><h1 className="mt-1 text-3xl font-bold">Product Research</h1><p className="mt-2 text-muted">Generate and score product opportunities for an existing business.</p></div>{businesses.length===0?<EmptyState title="Create a business first" description="Product research needs a business brief." action={<Link href="/businesses/new" className="inline-flex rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-semibold text-white">Create Business</Link>}/>:<Card>{error&&<p className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</p>}<ProductResearchForm businesses={businesses} selectedBusinessId={businessId}/></Card>}</div>}

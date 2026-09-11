@@ -8,6 +8,12 @@ The Phase 1A migration creates `profiles`, `organizations`, `organization_member
 
 `organization_members` is the source of tenant access. Security-definer functions perform membership checks without recursive policies. Organizations are readable only by members; businesses, jobs, usage, and audit data inherit that boundary. Administrative membership changes require an owner or admin. The narrowly scoped initial-workspace RPC safely crosses the otherwise circular organization/member insert policies and uses only the server session identity. Browser-supplied user or owner IDs are never accepted.
 
+## Phase 1B product research
+
+`202609110002_product_research.sql` adds `product_research_runs` and `product_opportunities`, their status enums, composite integrity constraints, indexes, timestamps, and tenant RLS. Members can select tenant data but cannot mutate the tables directly. Narrow, empty-search-path RPCs start, complete, fail, select, and reject research records while deriving authorization from `auth.uid()` and fully qualified membership relationships. Partial unique indexes enforce one active research run and one selected product per business. The selection RPC requires a completed run and uses a transaction-level advisory lock to replace the selected product safely without changing rejected products.
+
+The migration is local only until explicitly reviewed and applied. It must be applied after both Phase 1A migrations without resetting the database.
+
 ## Applying migrations
 
 Use `supabase db push` in a linked Supabase CLI project, or paste the migration into the Supabase SQL editor. The signup trigger atomically creates a profile, starter organization, and owner membership. Back up production data before future schema changes.

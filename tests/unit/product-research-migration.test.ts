@@ -1,0 +1,16 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { describe,expect,it } from "vitest";
+const sql=readFileSync(join(process.cwd(),"supabase/migrations/202609110002_product_research.sql"),"utf8");
+describe("product research database security",()=>{
+  it("allows member reads but no direct authenticated mutations",()=>{expect(sql).toContain("product_research_runs_member_select");expect(sql).toContain("product_opportunities_member_select");expect(sql).not.toContain("product_research_runs_member_all");expect(sql).not.toContain("product_opportunities_member_all");expect(sql).not.toMatch(/on public\.product_(research_runs|opportunities) for (insert|update|delete|all)/)});
+  it("rejects direct cross-tenant relationships",()=>{expect(sql).toContain("foreign key (business_id, organization_id)");expect(sql).toContain("foreign key (research_run_id, business_id, organization_id)");expect(sql).toMatch(/from public\.organization_members[\s\S]*organization_id = v_organization_id and user_id = v_user_id/)});
+  it("prevents duplicate active runs",()=>{expect(sql).toContain("product_research_runs_one_active_per_business");expect(sql).toContain("where status in ('queued', 'running')")});
+  it("enforces exactly one selected product",()=>{expect(sql).toContain("product_opportunities_one_selected_per_business");expect(sql).toContain("where status = 'selected'");expect(sql).toContain("pg_advisory_xact_lock")});
+  it("requires completed research and rejects rejected products during selection",()=>{const selection=sql.slice(sql.indexOf("create or replace function public.select_product_opportunity"));expect(selection).toContain("run.status = 'completed'");expect(selection).toContain("v_status not in ('discovered', 'shortlisted', 'selected')");expect(selection).toContain("status = 'shortlisted'")});
+  it("requires authenticated membership for every lifecycle RPC",()=>{expect(sql.match(/v_user_id uuid := auth\.uid\(\)/g)?.length).toBe(5);expect(sql.match(/if v_user_id is null then/g)?.length).toBe(5);expect(sql.match(/from public\.organization_members/g)?.length).toBeGreaterThanOrEqual(6)});
+  it("uses only safe security-definer search paths",()=>{expect(sql.match(/security definer\s+set search_path = ''/g)?.length).toBe(6);expect(sql).toContain("from public.organization_members");expect(sql).not.toContain("set search_path = public")});
+  it("enforces valid lifecycle transitions",()=>{expect(sql).toContain("where id = v_run_id and status = 'queued'");expect(sql).toContain("where id = p_run_id and status = 'running'");expect(sql).not.toMatch(/set status = 'running'[\s\S]{0,100}status = '(completed|failed)'/)});
+  it("rejects incomplete-run and rejected-product operations",()=>{expect(sql.match(/run\.status = 'completed'/g)?.length).toBeGreaterThanOrEqual(2);expect(sql).toContain("opportunity.status in ('discovered', 'shortlisted')")});
+  it("revokes schema creation and exposes only narrow RPCs",()=>{expect(sql).toContain("revoke create on schema public from public, anon, authenticated");for(const name of ["start_product_research","complete_product_research","fail_product_research","reject_product_opportunity","select_product_opportunity"])expect(sql).toContain(`grant execute on function public.${name}`)});
+});

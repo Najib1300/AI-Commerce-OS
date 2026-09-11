@@ -12,6 +12,8 @@
 - Locked/Coming Soon states for later capabilities
 - Zod validation, RLS, tenant-scoped helpers, Vitest, and Playwright coverage
 
-## Next phase
+## Phase 1B
 
-Phase 1B can implement Product Research using the existing business and AI-job boundaries. It must preserve tenant isolation and queue long-running work. No Phase 1B implementation is included here.
+Product Research is implemented with tenant-scoped research runs and opportunities, a replaceable OpenAI provider, structured validation, application-owned pricing and scoring, usage tracking, failure cleanup, product selection, and Brand Creation unlock state. AI-supplied market values are labeled as estimates. See `docs/PRODUCT-RESEARCH.md`.
+
+Brand Creation, Store Builder, advertising, supplier ordering, and social publishing remain out of scope.
