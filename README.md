@@ -11,6 +11,10 @@ AI Commerce OS is a multi-tenant SaaS foundation for creating and operating ecom
 5. Configure Supabase Auth's Site URL for the deployed origin and allow both its `/auth/callback` URL and `http://localhost:3000/auth/callback`.
 6. Run `npm run dev`.
 
+## Product research provider
+
+`AI_PROVIDER=openai` is the default and uses the server-only `OPENAI_API_KEY` plus `OPENAI_MODEL`. For deterministic workflow testing without API usage, explicitly set `AI_PROVIDER=mock`. Mock results are visibly marked as test data, record zero tokens, and must never be treated as live market evidence. Switching back requires only `AI_PROVIDER=openai`; never expose provider credentials to the browser.
+
 ## Commands
 
 - `npm run lint` — lint the repository

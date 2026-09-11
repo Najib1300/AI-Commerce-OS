@@ -12,6 +12,15 @@ Results are shown at `/businesses/[id]/research`; details are at `/businesses/[i
 
 The current provider uses `OPENAI_API_KEY` only on the server and defaults to `gpt-4.1-mini`. `OPENAI_MODEL` may override the model. Structured JSON is validated with Zod before persistence. Prompts and credentials are never stored in user-visible records.
 
+## Provider modes
+
+- `AI_PROVIDER=openai` (default) uses `OPENAI_API_KEY` and `OPENAI_MODEL` on the server.
+- `AI_PROVIDER=mock` uses deterministic fixtures for safe workflow testing. Pets receives three realistic examples; unsupported niches receive deterministic generic products.
+
+Both modes run the same validation, scoring, database RPCs, tenant checks, and product actions. Mock proposals omit derived margin and overall scores so application code still calculates them. Completed mock runs persist the unique model identifier `mock-product-research`, display a prominent **Test Data** warning, and create a zero-quantity usage record. This exercises the normal lifecycle without increasing paid AI usage. Mock data is synthetic and must not be used as live supplier or market evidence. OpenAI failures, including insufficient quota, retain the normal safe failure path and never fall back to mock.
+
+Switch modes by changing only `AI_PROVIDER` and restarting or redeploying the server. Keep OpenAI credentials configured for switching back; never expose them through `NEXT_PUBLIC_` variables.
+
 ## Inputs and output
 
 Inputs include business ID, country, selling market, niche, budget, maximum supplier cost, preferred selling price, and requested product count. The server accepts 1–10 products. Browser-supplied organization or user IDs are not accepted.

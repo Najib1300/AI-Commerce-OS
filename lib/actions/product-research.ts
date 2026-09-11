@@ -2,7 +2,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { executeProductResearch } from "@/agents/product-research/execution";
-import { OpenAiProductResearchProvider } from "@/agents/product-research/provider";
+import { getProductResearchProvider } from "@/agents/product-research/provider-factory";
 import { SupabaseProductResearchPersistence } from "@/agents/product-research/persistence";
 import { productResearchInputSchema } from "@/agents/product-research/validation";
 import { getCurrentOrganization } from "@/lib/data";
@@ -17,7 +17,7 @@ export async function startProductResearch(formData:FormData){
   const {data:business}=await supabase.from("businesses").select("id").eq("id",parsed.data.businessId).eq("organization_id",membership.organization_id).maybeSingle();
   if(!business)redirect(`/product-research?error=${encodeURIComponent("Business not found in your workspace.")}`);
   try{
-    await executeProductResearch(parsed.data,new OpenAiProductResearchProvider(),new SupabaseProductResearchPersistence(supabase,{organizationId:membership.organization_id,userId:user.id}));
+    await executeProductResearch(parsed.data,getProductResearchProvider(),new SupabaseProductResearchPersistence(supabase,{organizationId:membership.organization_id,userId:user.id}));
   }catch(error){
     console.error("Product research action failed",{businessId:parsed.data.businessId,userId:user.id,error});
     const message=error instanceof Error&&error.message.includes("already running")?error.message:safeResearchError;

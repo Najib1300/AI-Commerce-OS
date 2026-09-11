@@ -16,4 +16,6 @@
 
 Product Research is implemented with tenant-scoped research runs and opportunities, a replaceable OpenAI provider, structured validation, application-owned pricing and scoring, usage tracking, failure cleanup, product selection, and Brand Creation unlock state. AI-supplied market values are labeled as estimates. See `docs/PRODUCT-RESEARCH.md`.
 
+An explicit deterministic mock provider supports complete workflow testing without OpenAI credits. It preserves the production RPC and authorization path, records zero paid usage, and visibly labels synthetic results. Mock mode does not implement or begin Phase 1C.
+
 Brand Creation, Store Builder, advertising, supplier ordering, and social publishing remain out of scope.

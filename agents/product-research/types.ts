@@ -30,7 +30,8 @@ export interface ProductProposal {
 }
 
 export interface AiUsage { inputTokens: number; outputTokens: number; totalTokens: number }
-export interface ResearchGeneration { products: ProductProposal[]; usage: AiUsage; model: string }
+export type ProductResearchProviderName = "openai" | "mock";
+export interface ResearchGeneration { products: ProductProposal[]; usage: AiUsage; model: string; provider: ProductResearchProviderName }
 export interface ProductResearchProvider { generate(input: ProductResearchInput): Promise<ResearchGeneration> }
 
 export interface ScoredProduct extends ProductProposal {
