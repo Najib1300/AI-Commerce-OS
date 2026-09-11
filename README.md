@@ -1,6 +1,7 @@
 # AI Commerce OS
 
 AI Commerce OS is a multi-tenant SaaS foundation for creating and operating ecommerce businesses. Phase 1A provides secure authentication, workspace onboarding, a dashboard, and business setup. Shopify, payments, suppliers, automation, and AI generation are intentionally out of scope.
+Phase 1B adds Product Research, and Phase 1C adds a secure Brand Creation workflow from selected product through editable brand approval and the visual Store Creation handoff.
 
 ## Setup
 
@@ -24,3 +25,4 @@ AI Commerce OS is a multi-tenant SaaS foundation for creating and operating ecom
 - `npm run build` — production build
 
 See [Architecture](docs/ARCHITECTURE.md), [Database](docs/DATABASE.md), and [Phase 1](docs/PHASE-1.md).
+Brand workflow details are in [Brand Creation](docs/BRAND-CREATION.md).

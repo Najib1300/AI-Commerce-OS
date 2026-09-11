@@ -1,0 +1,8 @@
+import { z } from "zod";
+import { idSchema } from "@/lib/validation";
+const text=z.string().trim().min(2).max(3000);const list=z.array(z.string().trim().min(1).max(240)).min(1).max(12);export const hexColorSchema=z.string().regex(/^#[0-9A-Fa-f]{6}$/,"Use a six-digit hex color such as #111827.");
+export const brandPreferencesSchema=z.object({preferredStyle:z.string().trim().max(160).optional(),tone:z.string().trim().max(160).optional(),preferredColors:z.string().trim().max(240).optional(),wordsToInclude:z.string().trim().max(240).optional(),wordsToAvoid:z.string().trim().max(240).optional()});
+export const brandGenerationRequestSchema=brandPreferencesSchema.extend({businessId:idSchema,directionCount:z.coerce.number().int().min(1).max(5).default(3)});
+export const brandDirectionSchema=z.object({name:z.string().trim().min(2).max(120),tagline:z.string().trim().min(2).max(240),positioningStatement:text,targetCustomer:text,customerPainPoints:list,valueProposition:text,brandPersonality:list,brandVoice:z.object({tone:text,style:text,preferredLanguagePatterns:list,avoidLanguagePatterns:list}),primaryColor:hexColorSchema,secondaryColor:hexColorSchema,accentColor:hexColorSchema,typographyDirection:text,logoConcept:text,visualStyle:text,domainSuggestions:list,socialHandleSuggestions:list,aboutSummary:text,storeDesignDirection:text});
+export const brandResponseSchema=z.object({directions:z.array(brandDirectionSchema).min(1).max(5)});
+export const brandEditSchema=brandDirectionSchema.extend({businessId:idSchema,directionId:idSchema}).transform(({businessId,directionId,...updates})=>({businessId,directionId,updates}));

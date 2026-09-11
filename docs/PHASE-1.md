@@ -19,3 +19,7 @@ Product Research is implemented with tenant-scoped research runs and opportuniti
 An explicit deterministic mock provider supports complete workflow testing without OpenAI credits. It preserves the production RPC and authorization path, records zero paid usage, and visibly labels synthetic results. Mock mode does not implement or begin Phase 1C.
 
 Brand Creation, Store Builder, advertising, supplier ordering, and social publishing remain out of scope.
+
+## Phase 1C
+
+Brand Creation is implemented after product selection. It generates three validated directions by default, supports deterministic mock and OpenAI providers, compares and selects one direction, allows server-validated editing, records audit events, and finalizes an approved brand. Approval visually unlocks Store Creation without implementing it. See `docs/BRAND-CREATION.md`.
