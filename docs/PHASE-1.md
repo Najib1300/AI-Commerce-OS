@@ -4,7 +4,7 @@
 
 - Supabase email/password authentication and password reset
 - JSON-based signup endpoint with content-type-aware client error handling
-- Automatic profile, organization, and owner membership creation
+- Automatic profile creation plus transactional, idempotent organization and owner-membership provisioning during onboarding
 - Organization onboarding
 - Protected SaaS dashboard with database-backed counts, usage, and activity
 - Business creation, list, and overview

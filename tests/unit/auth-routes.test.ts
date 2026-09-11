@@ -17,9 +17,9 @@ describe("authentication routing", () => {
     expect(response.headers.get("x-middleware-next")).toBe("1");
   });
 
-  it("uses the deployment origin for successful callbacks", () => {
+  it("uses the deployment origin and enters onboarding after a successful callback", () => {
     expect(getCallbackDestination("https://darkgrey-stork-713402.hostingersite.com/auth/callback?code=test", true).toString())
-      .toBe("https://darkgrey-stork-713402.hostingersite.com/dashboard");
+      .toBe("https://darkgrey-stork-713402.hostingersite.com/onboarding");
   });
 
   it("returns callback failures to login with a safe message", () => {

@@ -6,5 +6,5 @@ export function isPublicAuthPath(pathname: string) {
 
 export function getCallbackDestination(requestUrl: string, succeeded: boolean) {
   const url = new URL(requestUrl);
-  return new URL(succeeded ? "/dashboard" : "/login?error=Unable%20to%20complete%20authentication.%20Please%20try%20again.", url.origin);
+  return new URL(succeeded ? "/onboarding" : "/login?error=Unable%20to%20complete%20authentication.%20Please%20try%20again.", url.origin);
 }
