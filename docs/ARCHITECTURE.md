@@ -22,3 +22,6 @@ Phase 1B adds `agents/product-research/`, whose provider interface keeps OpenAI 
 Provider selection is centralized in the server-only `getProductResearchProvider()` factory. OpenAI is the default; deterministic mock generation requires the explicit `AI_PROVIDER=mock` setting. Both implementations share validation, scoring, RPC lifecycle, persistence, RLS, and selection. Provider failures never trigger a silent fallback. The persisted `mock-product-research` model identifier keeps historical mock results visibly labeled after configuration changes.
 
 Phase 1C follows the same boundary under `agents/brand/`. Business and selected-product context are loaded server-side, while optional preferences are validated from the form. The provider controls only creative content; application and database code control tenant IDs, workflow state, selected-product linkage, timestamps, usage, editing, and approval. Approval is the sole signal that visually unlocks the future Store Creation phase.
+# Phase 1D Store architecture
+
+The Store Agent follows the provider/execution/persistence boundary and returns validated data only. RPCs own tenancy and state; `StoreRenderer` owns private and public presentation.

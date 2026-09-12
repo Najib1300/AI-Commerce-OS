@@ -21,3 +21,6 @@ The migration is local only until explicitly reviewed and applied. It must be ap
 ## Applying migrations
 
 Use `supabase db push` in a linked Supabase CLI project, or paste the migration into the Supabase SQL editor. The signup trigger atomically creates a profile, starter organization, and owner membership. Back up production data before future schema changes.
+# Store Builder schema
+
+`202609120005_store_builder.sql` adds store runs, stores, sections, pages, composite tenant keys, duplicate-protection indexes, tenant reads, published-only public reads, and narrow workflow RPCs. Existing data requires no backfill.

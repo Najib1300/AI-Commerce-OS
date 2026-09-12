@@ -26,3 +26,6 @@ Phase 1B adds Product Research, and Phase 1C adds a secure Brand Creation workfl
 
 See [Architecture](docs/ARCHITECTURE.md), [Database](docs/DATABASE.md), and [Phase 1](docs/PHASE-1.md).
 Brand workflow details are in [Brand Creation](docs/BRAND-CREATION.md).
+# Phase 1D Store Builder
+
+Structured storefront generation, editing, preview, approval, publishing, and a published-only public route are implemented. See `docs/STORE-BUILDER.md`.

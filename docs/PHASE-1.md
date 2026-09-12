@@ -23,3 +23,6 @@ Brand Creation, Store Builder, advertising, supplier ordering, and social publis
 ## Phase 1C
 
 Brand Creation is implemented after product selection. It generates three validated directions by default, supports deterministic mock and OpenAI providers, compares and selects one direction, allows server-validated editing, records audit events, and finalizes an approved brand. Approval visually unlocks Store Creation without implementing it. See `docs/BRAND-CREATION.md`.
+# Phase 1D — Store Builder
+
+Structured generation, deterministic mock/OpenAI providers, editing, preview, approval, publishing, and public storefront rendering are implemented locally. Checkout remains out of scope.

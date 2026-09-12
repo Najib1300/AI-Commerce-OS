@@ -1,0 +1,1 @@
+import{notFound}from"next/navigation";import{getPublicStore}from"@/lib/data";import{StoreRenderer}from"@/components/store-renderer";export default async function PublicStore({params}:{params:Promise<{slug:string}>}){const{slug}=await params;const data=await getPublicStore(slug);if(!data)notFound();return <StoreRenderer store={data.store} sections={data.sections}/>}
