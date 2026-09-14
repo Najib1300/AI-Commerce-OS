@@ -1,0 +1,2 @@
+export function multiplyMinorUnits(unitPrice:number,quantity:number){if(!Number.isSafeInteger(unitPrice)||unitPrice<0||!Number.isInteger(quantity)||quantity<1||quantity>10)throw new Error("Invalid money calculation");const total=unitPrice*quantity;if(!Number.isSafeInteger(total))throw new Error("Money amount exceeds safe range");return total}
+export function formatMinorUnits(amount:number,currency:string){if(!Number.isSafeInteger(amount)||amount<0)throw new Error("Invalid money amount");return new Intl.NumberFormat("en",{style:"currency",currency}).format(amount/100)}

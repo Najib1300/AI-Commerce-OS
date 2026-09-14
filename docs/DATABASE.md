@@ -1,5 +1,7 @@
 # Database
 
+Migration `202609130006_checkout_orders.sql` adds customers, addresses, checkout sessions/items, orders/items, payment transactions/events, commerce enums, and an atomic order-number sequence. Money is bigint minor units; composite foreign keys protect tenant consistency; authenticated users receive SELECT-only access.
+
 Phase 1C adds `brand_generation_runs` and `brand_directions` in `202609110003_brand_creation.sql`. Composite foreign keys bind each run to its organization, business, and selected Product Research opportunity, and bind every direction to that same tuple. Partial indexes enforce one active run, one selected direction, and one approved direction per business.
 
 Members receive tenant-scoped RLS reads only. Mutations use `start_brand_generation`, `complete_brand_generation`, `fail_brand_generation`, `select_brand_direction`, `reject_brand_direction`, `update_selected_brand`, and `approve_brand_direction`. Each security-definer function uses an empty search path, schema-qualified objects, authenticated membership checks, and constrained state transitions. Business/run deletion cascades dependent brand data; selected products referenced by brand history are protected from deletion.

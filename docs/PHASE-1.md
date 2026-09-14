@@ -1,5 +1,7 @@
 # Phase 1A
 
+Phase 1E delivers checkout, mock payment verification, immutable order snapshots, secure confirmations, and merchant order visibility. Supplier fulfillment remains deferred to Phase 1F.
+
 ## Included
 
 - Supabase email/password authentication and password reset

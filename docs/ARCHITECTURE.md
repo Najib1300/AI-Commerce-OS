@@ -1,5 +1,7 @@
 # Architecture
 
+Phase 1E places payment gateways behind `providers/payments`. The application and database—not the provider or browser—own pricing, tenant identity, lifecycle state, snapshots, and idempotency. Public commerce writes use narrow RPCs; merchant reads remain tenant-scoped through RLS.
+
 The Next.js App Router is split into server-rendered routes, reusable client UI, server actions, validation, data access, and Supabase infrastructure.
 
 ## Folder structure

@@ -1,5 +1,7 @@
 # AI Commerce OS
 
+Phase 1E adds published-store checkout, deterministic mock payments, secure order confirmation, and tenant-scoped merchant orders. Set `PAYMENT_PROVIDER=mock` locally. See `docs/CHECKOUT-PAYMENTS-ORDERS.md`.
+
 AI Commerce OS is a multi-tenant SaaS foundation for creating and operating ecommerce businesses. Phase 1A provides secure authentication, workspace onboarding, a dashboard, and business setup. Shopify, payments, suppliers, automation, and AI generation are intentionally out of scope.
 Phase 1B adds Product Research, and Phase 1C adds a secure Brand Creation workflow from selected product through editable brand approval and the visual Store Creation handoff.
 
