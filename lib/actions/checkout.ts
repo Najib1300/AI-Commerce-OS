@@ -20,6 +20,8 @@ export async function submitCheckout(formData:FormData){
   const d=parsed.data;
   const{data:session,error}=await supabase.rpc("create_checkout_session",{p_slug:d.slug,p_quantity:d.quantity,p_first_name:d.firstName,p_last_name:d.lastName,p_email:d.email,p_phone:d.phone,p_country_code:d.countryCode,p_address_line_1:d.addressLine1,p_address_line_2:d.addressLine2,p_city:d.city,p_region:d.region,p_postal_code:d.postalCode,p_provider:provider.name});
   if(error||!session)throw error||new Error("Checkout session missing");
+  const{error:startError}=await supabase.rpc("record_checkout_payment_started",{p_checkout_id:session.checkoutId,p_payment_token:session.paymentToken});
+  if(startError)throw startError;
   const result=await provider.verifyPayment(await provider.createPayment({checkoutId:session.checkoutId,paymentToken:session.paymentToken,amount:session.amount,currency:session.currency,scenario:d.scenario}));
   confirmation=session.confirmationToken;
   if(result.status==="succeeded"){
